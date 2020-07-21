@@ -1,0 +1,12 @@
+﻿@model ASP_Forum.Models.Topic
+
+<form asp-action="AddTopic" asp-controller="Home">
+    <input type="hidden" asp-for="SectionId" value="@ViewBag.SecId" />
+    <label asp-for="UserName">Ваше имя</label><br />
+    <input type="text" asp-for="UserName" /><br />
+    <label asp-for="Name">Название темы</label><br />
+    <input type="text" asp-for="Name" /><br />
+    <label asp-for="Body">Содержание</label><br />
+    <textarea rows="20" cols="70" asp-for="Body"></textarea><br />
+    <input type="submit" value="Отправить" />
+</form>

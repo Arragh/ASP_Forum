@@ -1,0 +1,13 @@
+﻿@model IEnumerable<ASP_Forum.Models.Topic>
+
+<h1>ТЕМЫ ФОРУМА</h1>
+
+@foreach (var item in Model)
+{
+    @if (item.SectionId == ViewBag.SecId)
+    {
+        <a href="/Home/ViewTopic/@item.Id">@item.Name</a><br />
+    }
+}
+<br /><br />
+<a href="/Home/CreateTopic/@ViewBag.SecId">Создать тему</a>

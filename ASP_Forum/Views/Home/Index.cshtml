@@ -1,0 +1,6 @@
+﻿@model IEnumerable<ASP_Forum.Models.Section>
+
+@foreach (var item in Model)
+{
+    <a href="/Home/ForumSection/@item.Id">@item.Name</a><br />
+}

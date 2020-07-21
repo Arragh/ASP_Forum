@@ -1,0 +1,8 @@
+﻿@using ASP_Forum.Models
+@model Section
+
+<form asp-action="AddSection" asp-controller="Admin">
+    <label asp-for="Name">Название раздела</label><br />
+    <input type="text" asp-for="Name" /><br /><br />
+    <input type="submit" value="Отправить" />
+</form>
