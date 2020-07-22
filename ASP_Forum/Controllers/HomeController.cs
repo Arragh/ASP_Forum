@@ -65,5 +65,18 @@ namespace ASP_Forum.Controllers
             await db.SaveChangesAsync();
             return RedirectToAction("Index", "Home");
         }
+
+        public IActionResult ViewReplies(int id)
+        {
+            List<Reply> replies = new List<Reply>();
+            foreach (var reply in db.Replies)
+            {
+                if (reply.TopicId == id)
+                {
+                    replies.Add(reply);
+                }
+            }
+            return View(replies);
+        }
     }
 }
