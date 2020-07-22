@@ -7,5 +7,14 @@
         <td width="80%">@ViewBag.Body</td>
     </tr>
 </table>
+<br />
+<table border="1" width="100%">
+    @foreach (var reply in ViewBag.Replies)
+	{
+		 <tr>
+             <td width="20%" valign="top">@reply.UserName</td>
+             <td width="80%">@reply.ReplyBody</td>
+         </tr>
+	}
+</table><br />
 <a href="/Home/CreateReply/@ViewBag.TopicId">Ответить</a><br />
-<a href="/Home/ViewReplies/@ViewBag.TopicId">Посмотреть ответы</a>

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ASP_Forum.Models;
+﻿using ASP_Forum.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ASP_Forum.Controllers
