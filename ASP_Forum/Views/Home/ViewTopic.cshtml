@@ -1,10 +1,10 @@
 ﻿@model ASP_Forum.Models.Topic
 
-<h1>@ViewBag.TopicName</h1><br />
+<h1>@Model.Name</h1><br />
 <table width="100%" border="1">
     <tr>
-        <td width="20%">@ViewBag.UserName</td>
-        <td width="80%">@ViewBag.Body</td>
+        <td width="20%">@Model.UserName</td>
+        <td width="80%">@Model.Body</td>
     </tr>
 </table>
 <br />
@@ -17,4 +17,4 @@
          </tr>
 	}
 </table><br />
-<a href="/Home/CreateReply/@ViewBag.TopicId">Ответить</a><br />
+<a href="/Home/CreateReply/@Model.Id">Ответить</a><br />

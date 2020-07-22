@@ -43,8 +43,6 @@ namespace ASP_Forum.Controllers
 
         public IActionResult ViewTopic(int id)
         {
-            ViewBag.TopicId = id;
-
             List<Reply> replies = new List<Reply>();
             foreach (var reply in db.Replies)
             {
@@ -56,10 +54,7 @@ namespace ASP_Forum.Controllers
             ViewBag.Replies = replies;
 
             Topic topic = db.Topics.Single(t => t.Id == id);
-            ViewBag.TopicName = topic.Name;
-            ViewBag.UserName = topic.UserName;
-            ViewBag.Body = topic.Body;
-            return View();
+            return View(topic);
         }
 
         public IActionResult CreateReply(int id)
