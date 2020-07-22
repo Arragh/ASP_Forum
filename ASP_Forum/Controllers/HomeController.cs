@@ -44,11 +44,26 @@ namespace ASP_Forum.Controllers
 
         public IActionResult ViewTopic(int id)
         {
+            ViewBag.TopicId = id;
+
             Topic topic = db.Topics.Single(t => t.Id == id);
             ViewBag.TopicName = topic.Name;
             ViewBag.UserName = topic.UserName;
             ViewBag.Body = topic.Body;
             return View();
+        }
+
+        public IActionResult CreateReply(int id)
+        {
+            ViewBag.TopicId = id;
+            return View();
+        }
+
+        public async Task<IActionResult> AddReply(Reply reply)
+        {
+            db.Replies.Add(reply);
+            await db.SaveChangesAsync();
+            return RedirectToAction("Index", "Home");
         }
     }
 }

@@ -1,0 +1,10 @@
+﻿@model ASP_Forum.Models.Reply
+
+<form asp-action="AddReply" asp-controller="Home">
+    <input type="hidden" asp-for="TopicId" value="@ViewBag.TopicId" />
+    <label asp-for="UserName">Ваше имя</label><br />
+    <input type="text" asp-for="UserName" /><br />
+    <label asp-for="ReplyBody">Содержание</label><br />
+    <textarea rows="20" cols="70" asp-for="ReplyBody"></textarea><br />
+    <input type="submit" value="Отправить" />
+</form>
