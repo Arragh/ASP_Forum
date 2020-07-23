@@ -67,7 +67,6 @@ namespace ASP_Forum.Controllers
         {
             db.Replies.Add(reply);
             await db.SaveChangesAsync();
-            //return RedirectToAction("Index", "Home");
             return RedirectToAction("ViewTopic", "Home", new { @id = reply.TopicId });
         }
     }
