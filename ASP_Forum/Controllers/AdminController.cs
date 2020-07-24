@@ -1,5 +1,6 @@
 ﻿using ASP_Forum.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace ASP_Forum.Controllers
 {
@@ -16,10 +17,10 @@ namespace ASP_Forum.Controllers
             return View();
         }
 
-        public IActionResult AddSection(Section section)
+        public async Task<IActionResult> AddSection(Section section)
         {
-            db.Sections.Add(section);
-            db.SaveChanges();
+            await db.Sections.AddAsync(section);
+            await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
     }

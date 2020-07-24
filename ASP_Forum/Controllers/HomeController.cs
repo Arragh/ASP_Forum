@@ -41,10 +41,10 @@ namespace ASP_Forum.Controllers
             return RedirectToAction("ForumSection", "Home", new { @id = topic.SectionId });
         }
 
-        public IActionResult ViewTopic(int id)
+        public async Task<IActionResult> ViewTopic(int id)
         {
             List<Reply> replies = new List<Reply>();
-            foreach (var reply in db.Replies)
+            await foreach (var reply in db.Replies)
             {
                 if (reply.TopicId == id)
                 {
@@ -53,7 +53,7 @@ namespace ASP_Forum.Controllers
             }
             ViewBag.Replies = replies;
 
-            Topic topic = db.Topics.Single(t => t.Id == id);
+            Topic topic = await db.Topics.SingleAsync(t => t.Id == id);
             return View(topic);
         }
 
@@ -65,7 +65,7 @@ namespace ASP_Forum.Controllers
 
         public async Task<IActionResult> AddReply(Reply reply)
         {
-            db.Replies.Add(reply);
+            await db.Replies.AddAsync(reply);
             await db.SaveChangesAsync();
             return RedirectToAction("ViewTopic", "Home", new { @id = reply.TopicId });
         }
