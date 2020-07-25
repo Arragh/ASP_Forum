@@ -15,8 +15,12 @@ namespace ASP_Forum.Controllers
             db = context;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(bool error = false)
         {
+            if (error)
+            {
+                return Content("Поля ввода должны содержать только строчные либо прописные символы русского алфавита, а так же не могут быть короче 5 символов");
+            }
             return View(await db.Sections.ToListAsync());
         }
 
@@ -33,12 +37,56 @@ namespace ASP_Forum.Controllers
             return View();
         }
 
-        [HttpPost]
         public async Task<IActionResult> AddTopic(Topic topic)
         {
-            db.Topics.Add(topic);
-            await db.SaveChangesAsync();
-            return RedirectToAction("ForumSection", "Home", new { @id = topic.SectionId });
+            bool error = false;
+
+            if (topic.Name == null)
+            {
+                topic.Name = "";
+            }
+            if (topic.UserName == null)
+            {
+                topic.UserName = "";
+            }
+            if (topic.Body == null)
+            {
+                topic.Body = "";
+            }
+
+            foreach (var c in topic.Name.ToArray())
+            {
+                if ((c < 'а' || c > 'я') && (c < 'А' && c > 'Я') && c != ' ')
+                {
+                    error = true;
+                    break;
+                }
+            }
+            foreach (var c in topic.UserName.ToArray())
+            {
+                if ((c < 'а' || c > 'я') && (c < 'А' || c > 'Я') && c != ' ')
+                {
+                    error = true;
+                    break;
+                }
+            }
+            foreach (var c in topic.Body.ToArray())
+            {
+                if ((c < 'а' || c > 'я') && (c < 'А' || c > 'Я') && c != ' ')
+                {
+                    error = true;
+                    break;
+                }
+            }
+
+            if ((topic.Name != "" && topic.Name.Length > 5) && (topic.UserName != "" && topic.UserName.Length > 5) && (topic.Body != "" && topic.Body.Length > 5) && error == false)
+            {
+                db.Topics.Add(topic);
+                await db.SaveChangesAsync();
+                return RedirectToAction("ForumSection", "Home", new { @id = topic.SectionId });
+            }
+
+            return RedirectToAction("Index", "Home", new { @error = true });
         }
 
         public async Task<IActionResult> ViewTopic(int id)
@@ -65,9 +113,42 @@ namespace ASP_Forum.Controllers
 
         public async Task<IActionResult> AddReply(Reply reply)
         {
-            await db.Replies.AddAsync(reply);
-            await db.SaveChangesAsync();
-            return RedirectToAction("ViewTopic", "Home", new { @id = reply.TopicId });
+            bool error = false;
+
+            if (reply.UserName == null)
+            {
+                reply.UserName = "";
+            }
+            if (reply.ReplyBody == null)
+            {
+                reply.ReplyBody = "";
+            }
+
+            foreach (var c in reply.UserName.ToArray())
+            {
+                if ((c < 'а' || c > 'я') && (c < 'А' || c > 'Я') && c != ' ')
+                {
+                    error = true;
+                    break;
+                }
+            }
+            foreach (var c in reply.ReplyBody.ToArray())
+            {
+                if ((c < 'а' || c > 'я') && (c < 'А' || c > 'Я') && c != ' ')
+                {
+                    error = true;
+                    break;
+                }
+            }
+
+            if ((reply.UserName != "" && reply.UserName.Length > 5) && (reply.ReplyBody != "" && reply.ReplyBody.Length > 5) && error == false)
+            {
+                await db.Replies.AddAsync(reply);
+                await db.SaveChangesAsync();
+                return RedirectToAction("ViewTopic", "Home", new { @id = reply.TopicId });
+            }
+
+            return RedirectToAction("Index", "Home", new { @error = true });
         }
     }
 }
