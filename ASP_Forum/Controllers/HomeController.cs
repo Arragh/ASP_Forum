@@ -31,8 +31,9 @@ namespace ASP_Forum.Controllers
             return View(await db.Topics.ToListAsync());
         }
 
-        public IActionResult CreateTopic(int id)
+        public IActionResult CreateTopic(int id, bool error = false)
         {
+            ViewBag.Error = error;
             ViewBag.SecId = id;
             return View();
         }
@@ -52,14 +53,14 @@ namespace ASP_Forum.Controllers
                 topic.Body = "";
             }
 
-            if (topic.Name != "" && topic.Name.Length > 5 && topic.UserName != "" && topic.UserName.Length > 5 && topic.Body != "" && topic.Body.Length > 5)
+            if (topic.Name != "" && topic.Name.Length >= 5 && topic.UserName != "" && topic.UserName.Length >= 5 && topic.Body != "" && topic.Body.Length >= 5)
             {
                 db.Topics.Add(topic);
                 await db.SaveChangesAsync();
                 return RedirectToAction("ForumSection", "Home", new { @id = topic.SectionId });
             }
 
-            return RedirectToAction("Index", "Home", new { @error = true });
+            return RedirectToAction("CreateTopic", "Home", new { @id = topic.SectionId, @error = true });
         }
 
         public async Task<IActionResult> ViewTopic(int id)
@@ -78,8 +79,9 @@ namespace ASP_Forum.Controllers
             return View(topic);
         }
 
-        public IActionResult CreateReply(int id)
+        public IActionResult CreateReply(int id, bool error = false)
         {
+            ViewBag.Error = error;
             ViewBag.TopicId = id;
             return View();
         }
@@ -95,14 +97,14 @@ namespace ASP_Forum.Controllers
                 reply.ReplyBody = "";
             }
 
-            if (reply.UserName != "" && reply.UserName.Length > 5 && reply.ReplyBody != "" && reply.ReplyBody.Length > 5)
+            if (reply.UserName != "" && reply.UserName.Length >= 5 && reply.ReplyBody != "" && reply.ReplyBody.Length >= 5)
             {
                 await db.Replies.AddAsync(reply);
                 await db.SaveChangesAsync();
                 return RedirectToAction("ViewTopic", "Home", new { @id = reply.TopicId });
             }
 
-            return RedirectToAction("Index", "Home", new { @error = true });
+            return RedirectToAction("CreateReply", "Home", new { @id = reply.TopicId, @error = true });
         }
     }
 }

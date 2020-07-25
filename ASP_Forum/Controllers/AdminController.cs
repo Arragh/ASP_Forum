@@ -15,10 +15,7 @@ namespace ASP_Forum.Controllers
 
         public IActionResult Index(bool error = false)
         {
-            if (error)
-            {
-                return Content("Название раздела не может быть короче 5 символов");
-            }
+            ViewBag.Error = error;
             return View();
         }
 
@@ -29,7 +26,7 @@ namespace ASP_Forum.Controllers
                 section.Name = "";
             }
 
-            if (section.Name != "" && section.Name.Length > 5)
+            if (section.Name != "" && section.Name.Length >= 5)
             {
                 await db.Sections.AddAsync(section);
                 await db.SaveChangesAsync();
