@@ -19,7 +19,7 @@ namespace ASP_Forum.Controllers
         {
             if (error)
             {
-                return Content("Поля ввода должны содержать только строчные либо прописные символы русского алфавита, а так же не могут быть короче 5 символов");
+                return Content("Содержимое полей не может быть короче 5 символов");
             }
             return View(await db.Sections.ToListAsync());
         }
@@ -39,8 +39,6 @@ namespace ASP_Forum.Controllers
 
         public async Task<IActionResult> AddTopic(Topic topic)
         {
-            bool error = false;
-
             if (topic.Name == null)
             {
                 topic.Name = "";
@@ -54,32 +52,7 @@ namespace ASP_Forum.Controllers
                 topic.Body = "";
             }
 
-            foreach (var c in topic.Name.ToArray())
-            {
-                if ((c < 'а' || c > 'я') && (c < 'А' && c > 'Я') && c != ' ')
-                {
-                    error = true;
-                    break;
-                }
-            }
-            foreach (var c in topic.UserName.ToArray())
-            {
-                if ((c < 'а' || c > 'я') && (c < 'А' || c > 'Я') && c != ' ')
-                {
-                    error = true;
-                    break;
-                }
-            }
-            foreach (var c in topic.Body.ToArray())
-            {
-                if ((c < 'а' || c > 'я') && (c < 'А' || c > 'Я') && c != ' ')
-                {
-                    error = true;
-                    break;
-                }
-            }
-
-            if ((topic.Name != "" && topic.Name.Length > 5) && (topic.UserName != "" && topic.UserName.Length > 5) && (topic.Body != "" && topic.Body.Length > 5) && error == false)
+            if (topic.Name != "" && topic.Name.Length > 5 && topic.UserName != "" && topic.UserName.Length > 5 && topic.Body != "" && topic.Body.Length > 5)
             {
                 db.Topics.Add(topic);
                 await db.SaveChangesAsync();
@@ -113,8 +86,6 @@ namespace ASP_Forum.Controllers
 
         public async Task<IActionResult> AddReply(Reply reply)
         {
-            bool error = false;
-
             if (reply.UserName == null)
             {
                 reply.UserName = "";
@@ -124,24 +95,7 @@ namespace ASP_Forum.Controllers
                 reply.ReplyBody = "";
             }
 
-            foreach (var c in reply.UserName.ToArray())
-            {
-                if ((c < 'а' || c > 'я') && (c < 'А' || c > 'Я') && c != ' ')
-                {
-                    error = true;
-                    break;
-                }
-            }
-            foreach (var c in reply.ReplyBody.ToArray())
-            {
-                if ((c < 'а' || c > 'я') && (c < 'А' || c > 'Я') && c != ' ')
-                {
-                    error = true;
-                    break;
-                }
-            }
-
-            if ((reply.UserName != "" && reply.UserName.Length > 5) && (reply.ReplyBody != "" && reply.ReplyBody.Length > 5) && error == false)
+            if (reply.UserName != "" && reply.UserName.Length > 5 && reply.ReplyBody != "" && reply.ReplyBody.Length > 5)
             {
                 await db.Replies.AddAsync(reply);
                 await db.SaveChangesAsync();
