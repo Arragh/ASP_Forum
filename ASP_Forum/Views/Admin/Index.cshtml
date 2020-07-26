@@ -2,8 +2,8 @@
 @model Section
 
 <form asp-action="AddSection" asp-controller="Admin">
-    <label asp-for="Name">Название раздела</label><br />
-    <input type="text" asp-for="Name" /><br /><br />
+    <label asp-for="Name">Название создаваемого раздела</label><br />
+    <input type="text" asp-for="Name" /><br />
     <input type="submit" value="Отправить" />
 </form>
 
@@ -11,3 +11,9 @@
 {
     <font color="red"><h3>Название раздела не может быть короче 5 символов.</h3></font>
 }
+<br /><br />
+<form asp-action="DeleteSection" asp-controller="Admin">
+    <label asp-for="Name">Название раздела для удаления</label><br />
+    <input type="text" asp-for="Name" /><br />
+    <input type="submit" value="Отправить" />
+</form>
