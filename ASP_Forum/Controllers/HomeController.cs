@@ -32,7 +32,6 @@ namespace ASP_Forum.Controllers
             return View(await db.Topics.ToListAsync());
         }
 
-        [Authorize]
         public IActionResult CreateTopic(int id, bool error = false)
         {
             ViewBag.Error = error;
@@ -81,7 +80,6 @@ namespace ASP_Forum.Controllers
             return View(topic);
         }
 
-        [Authorize]
         public IActionResult CreateReply(int id, bool error = false)
         {
             ViewBag.Error = error;

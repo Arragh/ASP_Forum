@@ -21,9 +21,6 @@ namespace ASP_Forum
             //string connectionForum = Configuration.GetConnectionString("ForumConnection");
             services.AddDbContext<ForumContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ForumConnection")));
 
-            services.AddDbContext<IdentityContext>(options => options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
-            services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<IdentityContext>();
-
             services.AddControllersWithViews().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
         }
 
@@ -35,9 +32,6 @@ namespace ASP_Forum
             }
 
             app.UseRouting();
-
-            app.UseAuthentication();
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

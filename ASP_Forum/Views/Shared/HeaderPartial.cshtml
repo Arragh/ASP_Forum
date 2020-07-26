@@ -18,7 +18,7 @@
             </td>
         </tr>
         <tr height="50">
-            <td align="center">@Html.ActionLink("Главная", "Index", "Home") &nbsp;&nbsp;&nbsp; @if (User.Identity.IsAuthenticated) { @Html.ActionLink("Админ-панель", "Index", "Admin") }</td>
+            <td align="center">@Html.ActionLink("Главная", "Index", "Home") &nbsp;&nbsp;&nbsp; @Html.ActionLink("Админ-панель", "Index", "Admin")</td>
         </tr>
     </table>
 </div>
