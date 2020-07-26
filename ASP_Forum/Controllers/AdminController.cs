@@ -27,6 +27,14 @@ namespace ASP_Forum.Controllers
                 section.Name = "";
             }
 
+            foreach (var item in db.Sections)
+            {
+                if (section.Name == item.Name)
+                {
+                    return RedirectToAction("Index", "Admin", new { @error = true });
+                }
+            }
+
             if (section.Name != "" && section.Name.Length >= 5)
             {
                 await db.Sections.AddAsync(section);

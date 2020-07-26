@@ -9,7 +9,7 @@
 
 @if (ViewBag.Error)
 {
-    <font color="red"><h3>Название раздела не может быть короче 5 символов.</h3></font>
+    <font color="red"><h3>Название раздела не может быть короче 5 символов, либо раздел с таким именем уже существует.</h3></font>
 }
 <br /><br />
 <form asp-action="DeleteSection" asp-controller="Admin">
