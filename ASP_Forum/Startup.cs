@@ -18,9 +18,13 @@ namespace ASP_Forum
         }
         public void ConfigureServices(IServiceCollection services)
         {
+            // подключаем контекст БД форума
             services.AddDbContext<ForumContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ForumConnection")));
 
+            // Подключаем контекст БД для регистрации пользователей (Identity)
             services.AddDbContext<AuthorizationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
+
+            // Настраиваем сервисы Identity
             services.AddIdentity<User, IdentityRole>(options =>
             {
                 // Только уникальные почтовые адреса
@@ -30,6 +34,7 @@ namespace ASP_Forum
             })
                 .AddEntityFrameworkStores<AuthorizationContext>();
 
+            // Добавляем возможность работать с моделью MVC и устанавливаем, на какую версию ядра ориентироваться
             services.AddControllersWithViews().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
         }
 
@@ -42,6 +47,7 @@ namespace ASP_Forum
 
             app.UseRouting();
 
+            // Подключаем аутентификацию и авторизацию
             app.UseAuthentication();
             app.UseAuthorization();
 
