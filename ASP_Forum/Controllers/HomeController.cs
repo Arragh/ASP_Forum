@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ASP_Forum.Controllers
@@ -32,6 +31,7 @@ namespace ASP_Forum.Controllers
             return View(await db.Topics.ToListAsync());
         }
 
+        [Authorize]
         public IActionResult CreateTopic(int id, bool error = false)
         {
             ViewBag.Error = error;
@@ -39,6 +39,7 @@ namespace ASP_Forum.Controllers
             return View();
         }
 
+        [Authorize]
         public async Task<IActionResult> AddTopic(Topic topic)
         {
             if (topic.Name == null)
@@ -54,11 +55,13 @@ namespace ASP_Forum.Controllers
                 topic.Body = "";
             }
 
+            // Проверяем входные данные на корректность. И если всё в порядке, создаем новую тему
             if (topic.Name != "" && topic.Name.Length >= 5 && topic.UserName != "" && topic.UserName.Length >= 5 && topic.Body != "" && topic.Body.Length >= 5)
             {
                 db.Topics.Add(topic);
                 await db.SaveChangesAsync();
-                return RedirectToAction("ForumSection", "Home", new { @id = topic.SectionId });
+                //return RedirectToAction("ForumSection", "Home", new { @id = topic.SectionId });
+                return RedirectToAction("ViewTopic", "Home", new { @id = topic.Id });
             }
 
             return RedirectToAction("CreateTopic", "Home", new { @id = topic.SectionId, @error = true });
@@ -80,6 +83,7 @@ namespace ASP_Forum.Controllers
             return View(topic);
         }
 
+        [Authorize]
         public IActionResult CreateReply(int id, bool error = false)
         {
             ViewBag.Error = error;
@@ -87,6 +91,7 @@ namespace ASP_Forum.Controllers
             return View();
         }
 
+        [Authorize]
         public async Task<IActionResult> AddReply(Reply reply)
         {
             if (reply.UserName == null)

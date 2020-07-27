@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace ASP_Forum.Models
+﻿namespace ASP_Forum.Models
 {
     public class Topic
     {

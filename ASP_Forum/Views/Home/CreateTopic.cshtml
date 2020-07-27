@@ -2,8 +2,7 @@
 
 <form asp-action="AddTopic" asp-controller="Home">
     <input type="hidden" asp-for="SectionId" value="@ViewBag.SecId" />
-    <label asp-for="UserName">Ваше имя</label><br />
-    <input type="text" asp-for="UserName" /><br />
+    <input type="hidden" asp-for="UserName" value="@User.Identity.Name" />
     <label asp-for="Name">Название темы</label><br />
     <input type="text" asp-for="Name" /><br />
     <label asp-for="Body">Содержание</label><br />

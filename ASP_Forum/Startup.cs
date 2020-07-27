@@ -18,8 +18,17 @@ namespace ASP_Forum
         }
         public void ConfigureServices(IServiceCollection services)
         {
-            //string connectionForum = Configuration.GetConnectionString("ForumConnection");
             services.AddDbContext<ForumContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ForumConnection")));
+
+            services.AddDbContext<AuthorizationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
+            services.AddIdentity<User, IdentityRole>(options =>
+            {
+                // “олько уникальные почтовые адреса
+                options.User.RequireUniqueEmail = true;
+                // —писок разрешенных символов в имени пользователей
+                options.User.AllowedUserNameCharacters = ".@0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzјЅ¬√ƒ≈®∆«»… ЋћЌќѕ–—“”‘’÷„ЎўЏџ№ЁёяабвгдеЄжзийклмнопрстуфхцчшщъыьэю€";
+            })
+                .AddEntityFrameworkStores<AuthorizationContext>();
 
             services.AddControllersWithViews().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
         }
@@ -32,6 +41,9 @@ namespace ASP_Forum
             }
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

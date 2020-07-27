@@ -1,4 +1,5 @@
 ﻿using ASP_Forum.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,12 +15,14 @@ namespace ASP_Forum.Controllers
             db = context;
         }
 
+        [Authorize]
         public IActionResult Index(bool error = false)
         {
             ViewBag.Error = error;
             return View();
         }
 
+        [Authorize]
         public async Task<IActionResult> AddSection(Section section)
         {
             if (section.Name == null)
@@ -45,6 +48,7 @@ namespace ASP_Forum.Controllers
             return RedirectToAction("Index", "Admin", new { @error = true });
         }
 
+        [Authorize]
         public async Task<IActionResult> DeleteSection(Section section)
         {
             Section sectionToDelete = db.Sections.FirstOrDefault(s => s.Name == section.Name);
