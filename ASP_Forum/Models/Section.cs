@@ -1,8 +1,11 @@
-﻿namespace ASP_Forum.Models
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace ASP_Forum.Models
 {
     public class Section
     {
-        public int Id { get; private set; }
+        public Guid Id { get; private set; }
         public string Name { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -24,7 +25,7 @@ namespace ASP_Forum.Controllers
         #region Просмотр раздела форума
         // Просмотр раздела форума
         [HttpGet]
-        public IActionResult ForumSection(int id)
+        public IActionResult ForumSection(Guid id)
         {
             // Создаем список, в который положим темы, относящиеся к выбранному разделу
             List<Topic> topics = new List<Topic>();
@@ -50,7 +51,8 @@ namespace ASP_Forum.Controllers
         #region Создание новой темы
         // Создание новой темы
         [Authorize]
-        public IActionResult CreateTopic(int id, bool error = false)
+        [HttpGet]
+        public IActionResult CreateTopic(Guid id, bool error = false)
         {
             // Создаем переменную для сообщения об ошибке входных данных, если таковая будет
             ViewBag.Error = error;
@@ -64,7 +66,8 @@ namespace ASP_Forum.Controllers
         #region Добавление новой темы в БД
         // Добавление новой темы в БД
         [Authorize]
-        public async Task<IActionResult> AddTopic(Topic topic)
+        [HttpPost]
+        public async Task<IActionResult> CreateTopic(Topic topic)
         {
             // Проверка входных данных на null и присваивание им пустых полей
             if (topic.Name == null)
@@ -92,7 +95,8 @@ namespace ASP_Forum.Controllers
 
         #region Просмотр темы
         // Просмотр темы
-        public async Task<IActionResult> ViewTopic(int id)
+        [HttpGet]
+        public async Task<IActionResult> ViewTopic(Guid id)
         {
             // Создаем новый список, куда положим ответы на тему
             List<Reply> replies = new List<Reply>();
@@ -121,7 +125,8 @@ namespace ASP_Forum.Controllers
         #region Создание ответа в теме
         // Создание ответа в теме
         [Authorize]
-        public IActionResult CreateReply(int id, bool error = false)
+        [HttpGet]
+        public IActionResult CreateReply(Guid id, bool error = false)
         {
             // Создаем переменную для сообщения об ошибке входных данных, если таковая будет
             ViewBag.Error = error;
@@ -134,8 +139,9 @@ namespace ASP_Forum.Controllers
 
         #region Добавление ответа в БД
         // Добавление ответа в БД
-        [Authorize]
-        public async Task<IActionResult> AddReply(Reply reply)
+        //[Authorize]
+        [HttpPost]
+        public async Task<IActionResult> CreateReply(Reply reply)
         {
             // Проверка входных данных на null и присваивание им пустых полей
             if (reply.ReplyBody == null)

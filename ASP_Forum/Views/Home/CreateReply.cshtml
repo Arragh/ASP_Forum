@@ -1,6 +1,6 @@
 ﻿@model ASP_Forum.Models.Reply
 
-<form asp-action="AddReply" asp-controller="Home">
+<form method="post" asp-action="CreateReply" asp-controller="Home">
     <input type="hidden" asp-for="TopicId" value="@ViewBag.TopicId" />
     <input type="hidden" asp-for="UserName" value="@User.Identity.Name" />
     <label asp-for="ReplyBody">Содержание</label><br />

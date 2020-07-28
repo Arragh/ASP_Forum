@@ -1,6 +1,6 @@
 ﻿@model ASP_Forum.Models.Topic
 
-<form asp-action="AddTopic" asp-controller="Home">
+<form method="post" asp-action="CreateTopic" asp-controller="Home">
     <input type="hidden" asp-for="SectionId" value="@ViewBag.SecId" />
     <input type="hidden" asp-for="UserName" value="@User.Identity.Name" />
     <label asp-for="Name">Название темы</label><br />
